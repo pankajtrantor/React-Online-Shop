@@ -8,11 +8,13 @@ export const ProductDetails = () =>{
     const {id} = useParams()
     const [product, setProduct] = useState([]);
     const [itemImg, setImage] = useState("");
+	const [cartProd, setCartProduct] = useState([]);
 
 	const ADD_TO_CART = 'ADD_TO_CART';
 	const updateCartProducts = (product) => (
-			// {type: ADD_TO_CART, payload: [{ id: product.id,title: product.title,image:product.images,price:product.price,discount:product.discountPercentage }]}
-			{type: ADD_TO_CART, payload: product}
+			 {type: ADD_TO_CART, payload: { id: product.id,title: product.title,image:product.thumbnail,price:product.price,discount:product.discountPercentage,quantity:1,totalPrice:(product.price - (product.price * product.discountPercentage / 100).toFixed()) }}
+			
+			//{type: ADD_TO_CART, payload: product}
 		);
 
     const getProductDatails = async () => {
@@ -29,10 +31,7 @@ export const ProductDetails = () =>{
     },[id]);
     const myVal = useSelector((state)=>state.MyCart);
     const dispatch = useDispatch();
-    const prodArr = [];
-        
-    prodArr.push({ id: product.id,title: product.title,image:product.images,price:product.price,discount:product.discountPercentage });
-
+ 
     return(
         <>
         <div className="container">
@@ -61,8 +60,9 @@ export const ProductDetails = () =>{
 							<span className="review-no">Rating {product.rating}/5</span>
 						</div>
 						<p className="product-description">{product.description}</p>
-						<h4 className="price">current price: <span>Rs {product.price}/-</span></h4>
-                        <p className="vote"><strong>Discount</strong> {product.discountPercentage} %</p>
+						<p className="vote"><strong>MRP: </strong>Rs {product.price}/-</p>
+                        <p className="vote"><strong>Discount: </strong> {product.discountPercentage} %</p>
+						<h4 className="price">After Discount: <span>Rs {product.price - (product.price * product.discountPercentage / 100).toFixed()}/-</span></h4>
 						<p className="vote"><strong>{product.stock}</strong> items are in stock!</p>
 						{/* <h5 className="sizes">sizes:
 							<span className="size" data-toggle="tooltip" title="small">s</span>

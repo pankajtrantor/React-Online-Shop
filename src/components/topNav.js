@@ -1,8 +1,15 @@
-import * as React from "react";
+import React from "react";
 import { useSelector, useDispatch} from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate  } from 'react-router-dom';
 export const TopNav = () =>{
-    const myVal = useSelector((state)=>state.cartitems);
+    const LOGOUT_USER = 'LOGOUT_USER';
+     const {cartItemsCount} = useSelector((state)=>state?.shopCartItems);
+    const dispatch=useDispatch();
+      const logoutUser = () => (
+         {type: LOGOUT_USER}
+        
+     )
+    
     return(<>
                 <nav className="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
         <div className="container-fluid">
@@ -22,12 +29,21 @@ export const TopNav = () =>{
                 <li className="nav-item">
                 <a className="nav-link" href="/contact">Contact</a>
                 </li>
+               
             </ul>
             <div className="d-flex" role="search">              
              
                <a href="/cart">
-               <button className="btn btn-outline-success" type="submit" style={{color:"#fff"}}>My Cart {myVal.length}</button>
+               <button className="btn btn-outline-success mx-3" type="submit" style={{color:"#fff"}}>My Cart {cartItemsCount}</button>
                </a>
+               <a href="/" onClick={()=>{
+                dispatch( logoutUser())
+                          }            
+            }>
+                <button className="btn btn-outline-success mx-3" style={{color:"#fff"}}>Log Out</button>
+            </a>
+              
+              
             </div>
             </div>
         </div>
